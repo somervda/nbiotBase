@@ -1,0 +1,2 @@
+import sqnsupgrade
+sqnsupgrade.info()

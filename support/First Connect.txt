@@ -1,0 +1,52 @@
+Uploading project (main folder)...
+Not safe booting, disabled in settings
+Uploading to /flash...
+Reading file status
+[1/1] Writing file main.py (2kb)
+Upload done, resetting board...
+OKets Jun  8 2016 00:22:57
+
+rst:0x7 (TG0WDT_SYS_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:1
+load:0x3fff8020,len:8
+load:0x3fff8028,len:2140
+ho 0 tail 12 room 4
+load:0x4009fa00,len:19760
+entry 0x400a05bc
+Resetting LTE modem ... Reset OK
+Configuring LTE ..attaching......
+SYSTEM FSM
+==========
+    +--------------------------+--------------------+
+    |            FSM           |        STATE       |
+    +--------------------------+--------------------+
+    | RRC TOP FSM              |CONNECTED           |
+    | RRC SEARCH FSM           |CAMPED              |
+    | RRC ACTIVE FSM           |CONNECTED           |
+    | PMM PLMN FSM             |NORM_CAMPED         |
+    | EMM MAIN FSM             |REGISTERED          |
+    | EMM AUTH FSM             |KASME_DEFINED       |
+    | EMM CONN FSM             |EMM_CONNECTED       |
+    | EMM TAU FSM              |NULL                |
+    | EMM TEST FSM             |NULL                |
+    | ESM BEARER FSM           |BEARER_ACTIVE       |
+    | SMS MT FSM               |IDLE                |
+    | SMS MO FSM               |IDLE                |
+    | HP MAIN FSM              |IDLE                |
+    | HP USIM FSM              |READY               |
+    | HP SMS MO FSM            |IDLE                |
+    | HP SMS MT FSM            |IDLE                |
+    | HP CAT FSM               |IDLE                |
+    +--------------------------+--------------------+
+
+OK
+
+attached!
+connecting [##] connected!
+[(2, 1, 0, '', ('151.101.1.195', 80))]
+Disconnected
+Pycom MicroPython 1.20.2.r1 [v1.11-a5aa0b8] on 2020-09-09; GPy with ESP32
+Type "help()" for more information.
+>>>
