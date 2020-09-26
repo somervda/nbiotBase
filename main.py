@@ -47,6 +47,13 @@ while not lte.isconnected():
 print("] connected!")
 
 print(socket.getaddrinfo('ourLora.com', 80))
+
+# s = socket.socket()
+# s.connect(socket.getaddrinfo('ourLora.com', 80)[0][-1])
+# s.send({"k": "ABCDWXYZ", "d": "Hello, World!", "t": "TOPIC1"})
+# print(s.recv(4096))
+# s.close()
+
 lte.deinit()
 print("Disconnected")
 # now we can safely machine.deepsleep()
