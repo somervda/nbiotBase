@@ -68,7 +68,8 @@ print('ssl. wrap connected')
 s.connect(socket.getaddrinfo('ourLora.com',  443)[0][-1])
 print(' connect to iot socket')
 
-message = "POST /mailbox HTTP/1.1\r\n"
+// htp = hypertext transfer protocol - the content of the TCP message being sent
+htp = "POST /mailbox HTTP/1.1\r\n"
 body = '{"device_id":"1234"}'
 headers = []
 headers.append(("content-length", str(len(body))))
@@ -78,28 +79,15 @@ headers.append(("host", "ourLora.com"))
 headers.append(("authorization", "Basic b3VyTG9yYTpwYXNzd29yZA=="))
 
 for header in headers:
-    message += header[0] + ":" + header[1] + "\r\n"
+    htp += header[0] + ":" + header[1] + "\r\n"
 
-message += "\r\n" + body
-print("message", message)
-# finalMessage = binascii.hexlify(finalMessage)
+htp += "\r\n" + body
+print("message", htp)
 
-print("Send:", s.send(message))
-# Don't wait for reply
-# while True:
-#     data = s.recv(100)
-#     if data:
-#         print(str(data, 'utf8'), end='')
-#     else:
-#         break
+print("Send:", s.send(htp))
+# Don't wait for reply , we don't use it
 s.close()
 print("Socket closed")
-
-# s = socket.socket()
-# s.connect(socket.getaddrinfo('ourLora.com', 80)[0][-1])
-# s.send({"k": "ABCDWXYZ", "d": "Hello, World!", "t": "TOPIC1"})
-# print(s.recv(4096))
-# s.close()
 
 lte.deinit()
 print("Disconnected")
