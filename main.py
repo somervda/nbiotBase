@@ -47,7 +47,7 @@ print("attaching..", end='')
 while not lte.isattached():
     blink(1, 0x0000ff)  # blue
     print('.', end='')
-print(lte.send_at_cmd('AT!="fsm"'))         # get the System FSM
+# print(lte.send_at_cmd('AT!="fsm"'))         # get the System FSM
 print("attached!")
 
 
@@ -56,8 +56,6 @@ print("connecting [##", end='')
 while not lte.isconnected():
     time.sleep(1)
     print('#', end='')
-# print(lte.send_at_cmd('AT!="showphy"'))
-# print(lte.send_at_cmd('AT!="fsm"'))
 print("] connected!")
 blink(2, 0x00ff00)  # Green
 
@@ -71,12 +69,13 @@ s.connect(socket.getaddrinfo('ourLora.com',  443)[0][-1])
 print(' connect to iot socket')
 
 message = "POST /mailbox HTTP/1.1\r\n"
-body = '{"device":"1234"}'
+body = '{"device_id":"1234"}'
 headers = []
 headers.append(("content-length", str(len(body))))
 headers.append(("content-type", "application/json"))
 headers.append(("user-agent", "LTE"))
 headers.append(("host", "ourLora.com"))
+headers.append(("authorization", "Basic b3VyTG9yYTpwYXNzd29yZA=="))
 
 for header in headers:
     message += header[0] + ":" + header[1] + "\r\n"
@@ -86,6 +85,7 @@ print("message", message)
 # finalMessage = binascii.hexlify(finalMessage)
 
 print("Send:", s.send(message))
+# Don't wait for reply
 # while True:
 #     data = s.recv(100)
 #     if data:
