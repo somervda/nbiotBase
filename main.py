@@ -11,4 +11,5 @@ print("LTE Modem Software Version: ", lteHelper.getVersion())
 wlan = WLAN()
 wlan.deinit()
 
-lteHelper.sendData('{"device_id":"94320"}')
+lteHelper.sendData(
+    '{"device_id":"94320", "payload_fields" : {"lat": 23,"lng":60 }}')
