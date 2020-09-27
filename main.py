@@ -71,17 +71,27 @@ s.connect(socket.getaddrinfo('ourLora.com',  443)[0][-1])
 print(' connect to iot socket')
 
 message = "POST /mailbox HTTP/1.1\r\n"
-parameters = '{"device":"1234"}'
-contentLength = "Content-Length: " + str(len(parameters))
-contentType = "Content-Type: application/json\r\n"
+body = '{"device":"1234"}'
+headers = []
+headers.append(("content-length", str(len(body))))
+headers.append(("content-type", "application/json"))
+headers.append(("user-agent", "LTE"))
+headers.append(("host", "ourLora.com"))
 
-finalMessage = message + contentLength + contentType + "\r\n"
-finalMessage = finalMessage + parameters
-print("final message", finalMessage)
+for header in headers:
+    message += header[0] + ":" + header[1] + "\r\n"
+
+message += "\r\n" + body
+print("message", message)
 # finalMessage = binascii.hexlify(finalMessage)
 
-s.send(finalMessage)
-# print(s.recv(4096))
+print("Send:", s.send(message))
+# while True:
+#     data = s.recv(100)
+#     if data:
+#         print(str(data, 'utf8'), end='')
+#     else:
+#         break
 s.close()
 print("Socket closed")
 
