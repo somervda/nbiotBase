@@ -19,17 +19,16 @@ def blink(seconds, rgb):
     pycom.rgbled(0x000000)  # off
     time.sleep(seconds/2)
 
+# See https://docs.pycom.io/firmwareapi/pycom/network/lte/#lteconnectcid1 and
+#  https://docs.pycom.io/tutorials/networks/lte/ for more details
+
 
 def sendData(bodyData):
     blink(2, 0xffffff)
+    print("sendData:", bodyData)
+    # Use Hologram setup settings
     lte = LTE()
     lte.init()
-    # some carriers have special requirements, check print(lte.send_at_cmd("AT+SQNCTM=?")) to see if your carrier is listed.
-    # when using verizon, use
-    # lte.init(carrier=verizon)
-    # when usint AT&T use,
-    # lte.init(carrier=at&t)
-
     print("Resetting LTE modem ... ", end="")
     lte.send_at_cmd('AT^RESET')
     print("Reset OK")
@@ -43,10 +42,9 @@ def sendData(bodyData):
     # changed band from 28 to 4. I dont know what earfcn=9410 is;
     lte.send_at_cmd('AT!="RRC::addscanfreq band=4 dl-earfcn=9410"')
     print(".", end='')
-    lte.send_at_cmd
+    # lte.send_at_cmd
 
-    # some carriers do not require an APN
-    # also, check the band settings with your carrier
+    # Do the attach (Enable radio functionality and attach to the LTE network authorized by the inserted SIM card)
     lte.attach()
     print("attaching..", end='')
     while not lte.isattached():
@@ -55,6 +53,7 @@ def sendData(bodyData):
     # print(lte.send_at_cmd('AT!="fsm"'))         # get the System FSM
     print("attached!")
 
+    # Do the connect (Start a data session and obtain and IP address)
     lte.connect()
     print("connecting [##", end='')
     while not lte.isconnected():
@@ -73,9 +72,10 @@ def sendData(bodyData):
     print(' connect to iot socket')
 
     # htp = hypertext transfer protocol - the content of the TCP message being sent
+    # Note: even small IP data requires ~8KB to send data over SSL
     htp = "POST /mailbox HTTP/1.1\r\n"
     headers = []
-    headers.append(("content-length", str(len(body))))
+    headers.append(("content-length", str(len(bodyData))))
     headers.append(("content-type", "application/json"))
     headers.append(("user-agent", "LTE"))
     headers.append(("host", "ourLora.com"))
