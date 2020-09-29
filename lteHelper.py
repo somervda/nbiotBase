@@ -5,12 +5,6 @@ import ssl
 import pycom
 import binascii
 
-import sqnsupgrade
-
-
-def getVersion():
-    return sqnsupgrade.info()
-
 
 def blink(seconds, rgb):
     # print("blink", rgb)
