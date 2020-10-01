@@ -56,35 +56,101 @@ def sendData(bodyData):
     print("] connected!")
     blink(2, 0x00ff00)  # Green
 
-    print(socket.getaddrinfo('ourLora.com', 80))
+    # ******************** Hologram endpoint
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print('socket connected')
-    s = ssl.wrap_socket(s)
-    print('ssl. wrap connected')
-    s.connect(socket.getaddrinfo('ourLora.com',  443)[0][-1])
-    print(' connect to iot socket')
+    # HOST = "cloudsocket.hologram.io"
+    HOST = "a1aacb4c3c9f148a157a9618a9a51173.m.pipedream.net"
+    # PORT = 9999
+    PORT = 443
+    # generated on hologram's portal for each SIM card.
+    DEVICE_KEY = "lQ6Gjc$n"
+    TOPIC = "SENSOR_DATA"
 
-    # htp = hypertext transfer protocol - the content of the TCP message being sent
-    # Note: even small IP data requires ~8KB to send data over SSL
-    htp = "POST /mailbox HTTP/1.1\r\n"
-    headers = []
-    headers.append(("content-length", str(len(bodyData))))
-    headers.append(("content-type", "application/json"))
-    headers.append(("user-agent", "LTE"))
-    headers.append(("host", "ourLora.com"))
-    headers.append(("authorization", "Basic b3VyTG9yYTpwYXNzd29yZA=="))
+    # idx = 0
 
-    for header in headers:
-        htp += header[0] + ":" + header[1] + "\r\n"
+    # lteSocket = socket.socket()
+    # lteSocket.setblocking(True)
+    lteSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    lteSocket.connect(socket.getaddrinfo(HOST,  PORT)[0][-1])
+    data = '{"k": "%s", "d": "%s", "t": "%s"}' % (
+        DEVICE_KEY, bodyData, TOPIC)
+    print("Send Data:", data)
+    lteSocket.send(bytes(data, 'ascii'))
+    lteSocket.close()
 
-    htp += "\r\n" + bodyData
-    print("message", htp)
+    # print(lteSocket)
+    # dns_records = socket.getaddrinfo(HOST, PORT)
+    # print("got dns_records:")
+    # print(dns_records)
 
-    print("Send:", s.send(htp))
-    # Don't wait for reply , we don't use it
-    s.close()
-    print("Socket closed")
+    # dns_record = dns_records[0][-1]
+    # print("DNS Record: {}".format(dns_record))
+    # lteSocket.connect(dns_record)
+    # print("==== LTE Socket connected")
+
+    # while (idx < 1):
+
+    #     print("@@@@@@@@@@@@@@@@@@@@ Transmission #: {}".format(idx))
+    #     # print("Local Time: {}".format(utime.localtime())
+
+    #     message = "Hi"
+
+    #     # for record in dns_records:
+    #     try:
+    #         data = '{"k": "%s", "d": "%s", "t": "%s"}' % (
+    #             DEVICE_KEY, message, TOPIC)
+    #         print("Send Data:", data)
+    #         lteSocket.send(bytes(data, 'ascii'))
+    #         time.sleep(1)
+
+    #         print("==== LTE Socket data sent")
+    #         # result = lteSocket.recv(8).decode()
+    #         # print("LTE Socket result received: "+result)
+    #     except Exception as err1:
+    #         try:
+    #             print("LTE Socket exception: {}".format(err1))
+    #             print("LTE Socket closing...")
+    #             lteSocket.close()
+    #         except:
+    #             pass
+    #         print("   "+err1)
+
+    #     idx += 1
+
+    #     time.sleep(5)
+
+    # lteSocket.close()
+    # print("LTE Socket closed.")
+
+    # print(socket.getaddrinfo('ourLora.com', 80))
+
+    # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # print('socket connected')
+    # s = ssl.wrap_socket(s)
+    # print('ssl. wrap connected')
+    # s.connect(socket.getaddrinfo('ourLora.com',  443)[0][-1])
+    # print(' connect to iot socket')
+
+    # # htp = hypertext transfer protocol - the content of the TCP message being sent
+    # # Note: even small IP data requires ~8KB to send data over SSL
+    # htp = "POST /mailbox HTTP/1.1\r\n"
+    # headers = []
+    # headers.append(("content-length", str(len(bodyData))))
+    # headers.append(("content-type", "application/json"))
+    # headers.append(("user-agent", "LTE"))
+    # headers.append(("host", "ourLora.com"))
+    # headers.append(("authorization", "Basic b3VyTG9yYTpwYXNzd29yZA=="))
+
+    # for header in headers:
+    #     htp += header[0] + ":" + header[1] + "\r\n"
+
+    # htp += "\r\n" + bodyData
+    # print("message", htp)
+
+    # print("Send:", s.send(htp))
+    # # Don't wait for reply , we don't use it
+    # s.close()
+    # print("Socket closed")
 
     lte.deinit()
     print("Disconnected")

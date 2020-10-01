@@ -25,15 +25,19 @@ acc.set_odr(0)
 
 #  Get GPS data from pytrack board
 gc.collect()
-gps = pytrackHelper.getGPS(py, 300)
-bodyData = '{"device_id":"94320", "payload_fields" : {"lat": ' + \
-    str(gps[0]) + ',"lng":' + str(gps[1]) + ' }}'
-
-# Send data via LTE
+# gps = pytrackHelper.getGPS(py, 300)
+gps = (1, 2)
+# bodyData = '{"device_id":"94320", "payload_fields" : {"lat": ' + \
+#     str(gps[0]) + ',"lng":' + str(gps[1]) + ' }}'
+# bodyData = "'lat': " + str(gps[0]) + ",'lng':" + str(gps[1])
+qt = "'"
+bodyData = qt + 'lat' + qt + ':' + \
+    str(gps[0]) + ',' + qt + 'lng' + qt + ':' + \
+    str(gps[1]) + ',' + qt + 'value' + qt + ':' + '47'
 gc.collect()
 lteHelper.sendData(bodyData)
 
 # Go into low power sleep
-py.setup_sleep(600)
-print("Sleep..")
-py.go_to_sleep(gps=False)
+# py.setup_sleep(600)
+# print("Sleep..")
+# py.go_to_sleep(gps=False)
