@@ -58,10 +58,8 @@ def sendData(bodyData):
 
     # ******************** Hologram endpoint
 
-    # HOST = "cloudsocket.hologram.io"
-    HOST = "a1aacb4c3c9f148a157a9618a9a51173.m.pipedream.net"
-    # PORT = 9999
-    PORT = 443
+    HOST = "cloudsocket.hologram.io"
+    PORT = 9999
     # generated on hologram's portal for each SIM card.
     DEVICE_KEY = "lQ6Gjc$n"
     TOPIC = "SENSOR_DATA"
@@ -74,8 +72,9 @@ def sendData(bodyData):
     lteSocket.connect(socket.getaddrinfo(HOST,  PORT)[0][-1])
     data = '{"k": "%s", "d": "%s", "t": "%s"}' % (
         DEVICE_KEY, bodyData, TOPIC)
-    print("Send Data:", data)
-    lteSocket.send(bytes(data, 'ascii'))
+    print("Send Data:", data, bytes(data, 'ascii'))
+    # lteSocket.send(bytes(data, 'ascii'))
+    lteSocket.send(data)
     lteSocket.close()
 
     # print(lteSocket)
