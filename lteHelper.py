@@ -13,13 +13,23 @@ def blink(seconds, rgb):
     pycom.rgbled(0x000000)  # off
     time.sleep(seconds/2)
 
+
+def buildData(dataList):
+    # Convert a lists of key value pairs into a string
+    dataString = ""
+    for data in dataList:
+        if (dataString != ""):
+            dataString += ","
+        dataString += '\\"%s\\":%f' % (data[0], data[1])
+    return dataString
+
 # See https://docs.pycom.io/firmwareapi/pycom/network/lte/#lteconnectcid1 and
 #  https://docs.pycom.io/tutorials/networks/lte/ for more details
 
 
-def sendData(bodyData):
+def sendData(dataList):
     blink(2, 0xffffff)
-    print("sendData:", bodyData)
+    print("sendData:", dataList, buildData(dataList))
     # Use Hologram setup settings
     lte = LTE()
     lte.init()
@@ -68,9 +78,10 @@ def sendData(bodyData):
 
     # lteSocket = socket.socket()
     # lteSocket.setblocking(True)
+    bodyData = buildData(dataList)
     lteSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     lteSocket.connect(socket.getaddrinfo(HOST,  PORT)[0][-1])
-    data = '{"k": "%s", "d": "%s", "t": "%s"}' % (
+    data = '{"k": "%s", "d": "{%s}", "t": "%s"}' % (
         DEVICE_KEY, bodyData, TOPIC)
     print("Send Data:", data, bytes(data, 'ascii'))
     # lteSocket.send(bytes(data, 'ascii'))

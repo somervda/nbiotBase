@@ -30,12 +30,16 @@ gps = (1, 2)
 # bodyData = '{"device_id":"94320", "payload_fields" : {"lat": ' + \
 #     str(gps[0]) + ',"lng":' + str(gps[1]) + ' }}'
 # bodyData = "'lat': " + str(gps[0]) + ",'lng':" + str(gps[1])
-qt = '\\"'
-bodyData = qt + 'lat' + qt + ':' + \
-    str(gps[0]) + ',' + qt + 'lng' + qt + ':' + \
-    str(gps[1]) + ',' + qt + 'value' + qt + ':' + '47'
+# qt = '\\"'
+# bodyData = qt + 'lat' + qt + ':' + \
+#     str(gps[0]) + ',' + qt + 'lng' + qt + ':' + \
+#     str(gps[1]) + ',' + qt + 'value' + qt + ':' + '47'
+dataList = []
+dataList.append(("lat", 4))
+dataList.append(("lng", 7))
+dataList.append(("value", 9))
 gc.collect()
-lteHelper.sendData(bodyData)
+lteHelper.sendData(dataList)
 
 # Go into low power sleep
 # py.setup_sleep(600)
