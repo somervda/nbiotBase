@@ -25,8 +25,8 @@ acc.set_odr(0)
 
 #  Get GPS data from pytrack board
 gc.collect()
-# gps = pytrackHelper.getGPS(py, 300)
-gps = (1, 2)
+gps = pytrackHelper.getGPS(py, 300)
+# gps = (1, 2)
 # bodyData = '{"device_id":"94320", "payload_fields" : {"lat": ' + \
 #     str(gps[0]) + ',"lng":' + str(gps[1]) + ' }}'
 # bodyData = "'lat': " + str(gps[0]) + ",'lng':" + str(gps[1])
@@ -35,9 +35,9 @@ gps = (1, 2)
 #     str(gps[0]) + ',' + qt + 'lng' + qt + ':' + \
 #     str(gps[1]) + ',' + qt + 'value' + qt + ':' + '47'
 dataList = []
-dataList.append(("lat", 4))
-dataList.append(("lng", 7))
-dataList.append(("value", 9))
+dataList.append(("lat", gps[0]))
+dataList.append(("lng", gps[1]))
+dataList.append(("value", 1))
 gc.collect()
 lteHelper.sendData(dataList)
 
