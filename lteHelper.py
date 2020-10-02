@@ -28,9 +28,12 @@ def buildData(dataList):
 
 
 def sendData(dataList, deviceKey):
-    blink(2, 0xffffff)
-    print("sendData:", dataList, buildData(dataList))
+    # ******************** Hologram endpoint Definition
+    HOST = "cloudsocket.hologram.io"
+    PORT = 9999
+    TOPIC = "SENSOR_DATA"
 
+    blink(1, 0xffffff)  # blink white
     # Set up LTE connection
     lte = LTE()
     lte.init()
@@ -65,13 +68,9 @@ def sendData(dataList, deviceKey):
         time.sleep(1)
         print('#', end='')
     print("] connected!")
-    blink(2, 0x00ff00)  # Green
+    blink(1, 0x00ff00)  # Green
 
-    # ******************** Hologram endpoint
-    HOST = "cloudsocket.hologram.io"
-    PORT = 9999
-    TOPIC = "SENSOR_DATA"
-
+    # **** Send data to hologram
     bodyData = buildData(dataList)
     lteSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     lteSocket.connect(socket.getaddrinfo(HOST,  PORT)[0][-1])
@@ -79,7 +78,9 @@ def sendData(dataList, deviceKey):
         deviceKey, bodyData, TOPIC)
     print("Send Data:", data)
     lteSocket.send(data)
+
+    # Clean up and close connection
     lteSocket.close()
     lte.deinit()
     print("Disconnected")
-    blink(2, 0xff0000)  # red
+    blink(1, 0xff0000)  # red
