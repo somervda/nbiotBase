@@ -1,0 +1,1 @@
+echo '{"k":"lQ6Gjc$n","d":"{\"lat\":40.174813,\"lng\":-75.302234,\"humidity\":80}","t":"SENSOR_DATA"}' | nc -i1 cloudsocket.hologram.io 9999

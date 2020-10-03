@@ -32,7 +32,7 @@ if (gps[0] is not None and gps[1] is not None):
     dataList = []
     dataList.append(("lat", gps[0]))
     dataList.append(("lng", gps[1]))
-    dataList.append(("value", 1))
+    dataList.append(("humidity", 95))
     gc.collect()
     # Connect to LTE and send the list of data items and hologram device key
     lteHelper.sendData(dataList, "lQ6Gjc$n")
